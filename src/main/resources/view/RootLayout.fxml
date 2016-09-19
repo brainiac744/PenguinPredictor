@@ -17,6 +17,13 @@
          <children>
             <VBox prefHeight="398.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
+                   <HBox alignment="CENTER">
+                       <Label text="Predict for v">
+                        <padding>
+                           <Insets right="0.5" />
+                        </padding></Label>
+                       <TextField fx:id="vWeek" prefWidth="80.0" />
+                   </HBox>
                   <Label text="One Point Penguins" />
                   <ChoiceBox fx:id="onePointPenguins1" />
                   <ChoiceBox fx:id="onePointPenguins2" />

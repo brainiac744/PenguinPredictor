@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import net.pyromonkey.penguinpredictor.MainApp;
 import net.pyromonkey.penguinpredictor.Penguin;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 public class RootLayoutController {
 
+    @FXML private TextField vWeek;
     @FXML private ChoiceBox<Penguin> onePointPenguins1;
     @FXML private ChoiceBox<Penguin> onePointPenguins2;
     @FXML private ChoiceBox<Penguin> onePointPenguins3;
@@ -38,6 +40,8 @@ public class RootLayoutController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 
+        vWeek.setText(Integer.toString(mainApp.getNextWeek()));
+
         onePointPenguins1.setItems(mainApp.getOnePointPenguins());
         onePointPenguins2.setItems(mainApp.getOnePointPenguins());
         onePointPenguins3.setItems(mainApp.getOnePointPenguins());
@@ -52,6 +56,35 @@ public class RootLayoutController {
     }
 
     public void doPredictions() {
+        // try to parse vWeek
+        String vWeekString = vWeek.getText();
+        int vWeekInt = -1;
+        try {
+            vWeekInt = Integer.parseInt(vWeekString);
+        } catch (NullPointerException | NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Invalid vWeek");
+            alert.setHeaderText("Invalid vWeek");
+            alert.setContentText("The vWeek is not a valid integer, please correct the value and try again");
+
+            alert.showAndWait();
+            return;
+        }
+
+        if (vWeekInt < 0) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Invalid vWeek");
+            alert.setHeaderText("Invalid vWeek");
+            alert.setContentText("The vWeek must be positive, please correct the value and try again");
+
+            alert.showAndWait();
+            return;
+        }
+
+        mainApp.setNextWeek(vWeekInt);
+
         // gather selected penguins
         int[] onePointPenguins = new int[5];
         int[] twoPointPenguins = new int[5];

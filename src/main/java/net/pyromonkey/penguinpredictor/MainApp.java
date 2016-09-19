@@ -70,6 +70,25 @@ public class MainApp extends Application {
         Collections.sort(twoPointPenguins);
     }
 
+    public int getNextWeek() {
+        return (int) ((System.currentTimeMillis()/1000)-1219190400)/(7*86400) + 1;
+    }
+
+    public void setNextWeek(int nextWeek) {
+        this.nextWeek = nextWeek;
+
+        // calculate current npc week offsets
+        npcWeekOffsets.clear();
+        int[] offsetAdds = {32, 23, 14, 5, 28};
+        for (int add : offsetAdds) {
+            int offset = (((nextWeek - 3) % 32) + add) % 32;
+            if (offset == 0) {
+                offset = 32;
+            }
+            npcWeekOffsets.add(offset);
+        }
+    }
+
     public ObservableList<Penguin> getOnePointPenguins() {
         return onePointPenguins;
     }
@@ -205,9 +224,10 @@ public class MainApp extends Application {
         }
 
         if (disruptionOffset != 0) {
+            // disrupt the original penguins
             int originalLength = pengArrayOffsets.size();
             for (int i = 0; i < originalLength; i++) {
-                pengArrayOffsets.add((pengArrayOffsets.get(i) + disruptionOffset) % penguins.length);
+                pengArrayOffsets.set(i, (pengArrayOffsets.get(i) + disruptionOffset) % penguins.length);
             }
         }
 
