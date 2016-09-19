@@ -13,10 +13,14 @@ hs_err_pid*
 
 # compiled folder
 out
+build
 
 # intellij
 *.iml
 .idea
+
+# gradle
+.gradle
 
 # mac...
 .DS_Store
