@@ -23,5 +23,5 @@ jfx {
     mainClass = 'net.pyromonkey.penguinpredictor.MainApp'
 
     // minimal requirement for jfxNative-task
-    vendor = 'Anthony Parrott'
+    vendor = 'TeamPeng'
 }
