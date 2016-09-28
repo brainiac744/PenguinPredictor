@@ -24,4 +24,7 @@ jfx {
 
     // minimal requirement for jfxNative-task
     vendor = 'TeamPeng'
+
+    // version for builds
+    nativeReleaseVersion = "1.1"
 }
