@@ -20,12 +20,6 @@ public class RootLayoutController {
     @FXML private ChoiceBox<Penguin> onePointPenguins4;
     @FXML private ChoiceBox<Penguin> onePointPenguins5;
 
-    @FXML private ChoiceBox<Penguin> twoPointPenguins1;
-    @FXML private ChoiceBox<Penguin> twoPointPenguins2;
-    @FXML private ChoiceBox<Penguin> twoPointPenguins3;
-    @FXML private ChoiceBox<Penguin> twoPointPenguins4;
-    @FXML private ChoiceBox<Penguin> twoPointPenguins5;
-
     @FXML private TextArea rightPaneTextArea;
 
 
@@ -47,12 +41,6 @@ public class RootLayoutController {
         onePointPenguins3.setItems(mainApp.getOnePointPenguins());
         onePointPenguins4.setItems(mainApp.getOnePointPenguins());
         onePointPenguins5.setItems(mainApp.getOnePointPenguins());
-
-        twoPointPenguins1.setItems(mainApp.getTwoPointPenguins());
-        twoPointPenguins2.setItems(mainApp.getTwoPointPenguins());
-        twoPointPenguins3.setItems(mainApp.getTwoPointPenguins());
-        twoPointPenguins4.setItems(mainApp.getTwoPointPenguins());
-        twoPointPenguins5.setItems(mainApp.getTwoPointPenguins());
     }
 
     public void doPredictions() {
@@ -87,7 +75,6 @@ public class RootLayoutController {
 
         // gather selected penguins
         int[] onePointPenguins = new int[5];
-        int[] twoPointPenguins = new int[5];
 
         ArrayList<String> missingPenguins = new ArrayList<>();
 
@@ -97,22 +84,9 @@ public class RootLayoutController {
         onePointPenguins[3] = getOrdinalOrNegativeOne(onePointPenguins4.getValue());
         onePointPenguins[4] = getOrdinalOrNegativeOne(onePointPenguins5.getValue());
 
-        twoPointPenguins[0] = getOrdinalOrNegativeOne(twoPointPenguins1.getValue());
-        twoPointPenguins[1] = getOrdinalOrNegativeOne(twoPointPenguins2.getValue());
-        twoPointPenguins[2] = getOrdinalOrNegativeOne(twoPointPenguins3.getValue());
-        twoPointPenguins[3] = getOrdinalOrNegativeOne(twoPointPenguins4.getValue());
-        twoPointPenguins[4] = getOrdinalOrNegativeOne(twoPointPenguins5.getValue());
-
         for (int i=0; i < onePointPenguins.length; i++) {
             if (onePointPenguins[i] < 0) {
                 missingPenguins.add("One point penguin for position " + (i+1));
-            }
-        }
-
-
-        for (int i=0; i < twoPointPenguins.length; i++) {
-            if (twoPointPenguins[i] < 0) {
-                missingPenguins.add("Two point penguin for position " + (i+1));
             }
         }
 
@@ -127,7 +101,7 @@ public class RootLayoutController {
             alert.showAndWait();
         } else {
             // do the predictions
-            rightPaneTextArea.setText(mainApp.predictNextWeek(onePointPenguins, twoPointPenguins));
+            rightPaneTextArea.setText(mainApp.predictNextWeek(onePointPenguins));
         }
     }
 

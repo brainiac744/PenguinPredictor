@@ -22,10 +22,9 @@ public class MainApp extends Application {
     private Stage primaryStage;
 
     private static final String[] onePointPenguinNames = {"Goblin Village bush", "Ice Mountain rock", "McGrubbors bush", "Rellekka rock", "Entrana barrel", "Draynor crate", "Mage Arena bush", "Barbarian Outpost bush", "Observatory crate", "Witchaven rock", "East Karamja bush", "White Wolf rock", "Lumbridge toadstool", "Digsite rock", "Wizards' Tower bush", "Eagles' Peak bush", "Castle Wars bush", "Central Karamja bush", "Burthorpe rock", "Smoky Well cactus", "Zanaris toadstool", "Ardougne bush", "Port Khazard barrel", "Gnome Maze bush", "Brimhaven bush", "Mudskipper bush", "KQ Lair cactus", "Dorgesh-Kaan barrel", "Lighthouse rock", "Feldip rock", "Gnome Stronghold bush", "Musa Point crate", "Sawmill crate", "Al Kharid cactus"};
-    private static final String[] twoPointPenguinNames = {"Castle Wars rock", "Mort Myre rock", "Nardah cactus", "Mos Le'Harmless barrel", "Ape Atoll bush", "Jatizso rock", "Jatizso bush", "Lunar Isle rock", "Scorpion Pit rock", "Lava Maze rock", "Mort Myre bush", "Canifis crate", "Jiggig rock", "Inside Sophanem cactus", "Tyras Catapult toadstool", "Keldagrim rock", "Feldip bush", "Elf Limestone rock", "SW of KBD rock", "Dragontooth crate", "Ape Atoll barrel", "Miscellania bush", "Neitiznot rock", "Neitiznot bush", "Old SC rock", "North of KBD rock", "Mort Myre toadstool", "Canifis bush", "Port Phasmatys barrel", "Outside Sophanem cactus", "Elf Camp toadstool", "Lletya toadstool", "Piscatoris crate"};
+    private static final String[] twoPointPenguinNames = {"Mort Myre rock", "Ape Atoll barrel", "Jatizso bush", "North of KBD rock", "Canifis crate", "Elf Camp toadstool", "Piscatoris crate", "SW of KBD rock", "Ape Atoll bush", "Neitiznot bush", "Lava Maze rock", "Port Phasmatys barrel", "Tyras Catapult toadstool", "Feldip bush", "Nardah cactus", "Miscellania bush", "Lunar Isle rock", "Mort Myre toadstool", "Jiggig rock", "Lletya toadstool", "Castle Wars rock", "Dragontooth crate", "Jatizso rock", "Old SC rock", "Mort Myre bush", "Outside Sophanem cactus", "Keldagrim rock", "Elf Limestone rock", "Mos Le'Harmless barrel", "Neitiznot rock", "Scorpion Pit rock", "Canifis bush", "Inside Sophanem cactus", "Unknown Penguin Spy"};
 
-    private static final int[] onePointOffsets = {17, 24, 21, 28, 17, 24, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 17, 24, 17, 10, 17, 24, 17, 24, 17, 24, 17, 10, 17, 24, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 17, 24, 21, 28, 17, 24, 13, 6};
-    private static final int[] twoPointOffsets = {28, 12, 12, 29, 28, 12, 26, 10, 13, 29, 30, 13, 10, 27, 26, 10, 13, 29, 30, 13, 10, 27, 26, 10, 28, 12, 15, 31, 28, 12, 8, 25, 28, 12, 15, 31, 28, 12, 26, 10, 10, 27, 30, 13, 13, 29, 26, 10, 10, 27, 30, 13, 13, 29, 26, 10, 28, 12, 12, 29, 28, 12, 11, 27};
+    private static final int[] penguinOffsets = {17, 24, 21, 28, 17, 24, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 17, 24, 17, 10, 17, 24, 17, 24, 17, 24, 17, 10, 17, 24, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 17, 24, 21, 28, 17, 24, 13, 6};
 
     private static final int[] disruptionWeekBasis = {192, 193, 210, 211, 228, 229, 247, 248, 265, 266, 283, 284, 301, 302};
     private static final int[][] disruptionWeekStrands = {{3,4,5}, {1,2}, {5}, {1,2,3,4}, {}, {1,2,3,4,5}, {2,3,4,5}, {1}, {4,5}, {1,2,3}, {}, {1,2,3,4,5}, {}, {1,2,3,4,5}};
@@ -142,7 +141,7 @@ public class MainApp extends Application {
         return primaryStage;
     }
 
-    public String predictNextWeek(int[] onePointPenguins, int[] twoPointPenguins) {
+    public String predictNextWeek(int[] onePointPenguins) {
         // determine if it is a disruption week
         boolean disruption = false;
         int[] disruptedStrands = {};
@@ -167,25 +166,30 @@ public class MainApp extends Application {
                 set = 2;
             }
         }
+
+        String sixthTwoPoint = "";
         for (int i = 0; i < 5; i ++) {
             int strand = i + 1;
             int weekOffsetBase = (npcWeekOffsets.get(i) - 1) * 2;
-            int onePointDisruptionOffset = 0;
-            int twoPointDisruptionOffset = 0;
+            int disruptionOffset = 0;
             if (disruption && inArray(strand, disruptedStrands)) {
                 if (set == 3) {
                     // use set 3
-                    onePointDisruptionOffset = 16;
-                    twoPointDisruptionOffset = 2;
+                    disruptionOffset = 16;
                 } else {
                     // use set 2
-                    onePointDisruptionOffset = 31;
-                    twoPointDisruptionOffset = 27;
+                    disruptionOffset = 31;
                 }
             }
-            onePointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], onePointOffsets, weekOffsetBase, onePointPenguinNames, onePointDisruptionOffset));
-            twoPointPredictions.add(strand + ") " + predictPenguin(twoPointPenguins[i], twoPointOffsets, weekOffsetBase, twoPointPenguinNames, twoPointDisruptionOffset));
+            onePointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, onePointPenguinNames, disruptionOffset));
+            twoPointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
+            if (i == 2) {
+                // add one more prediction for the 6th 2 point penguin - it is always strand 3, +2 spaces down
+                sixthTwoPoint = "6) " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset + 2);
+            }
         }
+        // actually add the 6th prediction to the end of the array
+        twoPointPredictions.add(sixthTwoPoint);
 
         String message = "For week v" + nextWeek + " I predict:\n\n1-Point Penguins\n" + onePointPredictions.stream().collect(Collectors.joining("\n"))
                 + "\n\n2-Point-Penguins\n" + twoPointPredictions.stream().collect(Collectors.joining("\n"));
