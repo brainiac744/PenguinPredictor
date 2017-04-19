@@ -19,6 +19,7 @@ public class RootLayoutController {
     @FXML private ChoiceBox<Penguin> onePointPenguins3;
     @FXML private ChoiceBox<Penguin> onePointPenguins4;
     @FXML private ChoiceBox<Penguin> onePointPenguins5;
+    @FXML private ChoiceBox<Penguin> freezerPenguin;
 
     @FXML private TextArea rightPaneTextArea;
 
@@ -41,6 +42,7 @@ public class RootLayoutController {
         onePointPenguins3.setItems(mainApp.getOnePointPenguins());
         onePointPenguins4.setItems(mainApp.getOnePointPenguins());
         onePointPenguins5.setItems(mainApp.getOnePointPenguins());
+        freezerPenguin.setItems(mainApp.getTwoPointPenguins());
     }
 
     public void doPredictions() {
@@ -74,7 +76,7 @@ public class RootLayoutController {
         mainApp.setNextWeek(vWeekInt);
 
         // gather selected penguins
-        int[] onePointPenguins = new int[5];
+        int[] onePointPenguins = new int[6];
 
         ArrayList<String> missingPenguins = new ArrayList<>();
 
@@ -83,6 +85,7 @@ public class RootLayoutController {
         onePointPenguins[2] = getOrdinalOrNegativeOne(onePointPenguins3.getValue());
         onePointPenguins[3] = getOrdinalOrNegativeOne(onePointPenguins4.getValue());
         onePointPenguins[4] = getOrdinalOrNegativeOne(onePointPenguins5.getValue());
+        onePointPenguins[5] = getOrdinalOrNegativeOne(freezerPenguin.getValue());
 
         for (int i=0; i < onePointPenguins.length; i++) {
             if (onePointPenguins[i] < 0) {

@@ -46,8 +46,10 @@ public class MainApp extends Application {
         nextWeek = (int) ((System.currentTimeMillis()/1000)-1219190400)/(7*86400) + 1;
 
         // calculate current npc week offsets
-        int[] offsetAdds = {32, 23, 14, 5, 28};
+        int[] offsetAdds = {32, 23, 14, 5, 28, 10};
         for (int add : offsetAdds) {
+            // this is math that turns a v-week into the correct week offset
+            // for penguin strands 1-6 (6 is for the freezer penguin only)
             int offset = (((nextWeek - 3) % 32) + add) % 32;
             if (offset == 0) {
                 offset = 32;
@@ -78,7 +80,7 @@ public class MainApp extends Application {
 
         // calculate current npc week offsets
         npcWeekOffsets.clear();
-        int[] offsetAdds = {32, 23, 14, 5, 28};
+        int[] offsetAdds = {32, 23, 14, 5, 28, 10};
         for (int add : offsetAdds) {
             int offset = (((nextWeek - 3) % 32) + add) % 32;
             if (offset == 0) {
@@ -167,8 +169,7 @@ public class MainApp extends Application {
             }
         }
 
-        String sixthTwoPoint = "";
-        for (int i = 0; i < 5; i ++) {
+        for (int i = 0; i < 6; i ++) {
             int strand = i + 1;
             int weekOffsetBase = (npcWeekOffsets.get(i) - 1) * 2;
             int disruptionOffset = 0;
@@ -181,15 +182,15 @@ public class MainApp extends Application {
                     disruptionOffset = 31;
                 }
             }
-            onePointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, onePointPenguinNames, disruptionOffset));
-            twoPointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
-            if (i == 2) {
-                // add one more prediction for the 6th 2 point penguin - it is always strand 3, +2 spaces down
-                sixthTwoPoint = "6) " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset + 2);
+
+            if (i == 5) {
+                // this is special logic for the freezer peng, we only calculate 2 point pengs and stylize with F)
+                twoPointPredictions.add("F) " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
+            } else {
+                onePointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, onePointPenguinNames, disruptionOffset));
+                twoPointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
             }
         }
-        // actually add the 6th prediction to the end of the array
-        twoPointPredictions.add(sixthTwoPoint);
 
         String message = "For week v" + nextWeek + " I predict:\n\n1-Point Penguins\n" + onePointPredictions.stream().collect(Collectors.joining("\n"))
                 + "\n\n2-Point-Penguins\n" + twoPointPredictions.stream().collect(Collectors.joining("\n"));

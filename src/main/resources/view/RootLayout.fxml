@@ -24,6 +24,12 @@
                   <ChoiceBox fx:id="onePointPenguins3" />
                   <ChoiceBox fx:id="onePointPenguins4" />
                   <ChoiceBox fx:id="onePointPenguins5" />
+                   <Label text="Freezer Penguin">
+                       <VBox.margin>
+                           <Insets top="10.0" />
+                       </VBox.margin>
+                   </Label>
+                   <ChoiceBox fx:id="freezerPenguin" />
                   <Button mnemonicParsing="false" onAction="#doPredictions" text="Predict">
                      <VBox.margin>
                         <Insets top="10.0" />
