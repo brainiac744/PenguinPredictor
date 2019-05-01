@@ -27,7 +27,7 @@ public class MainApp extends Application {
     private static final int[] penguinOffsets = {17, 24, 21, 28, 17, 24, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 17, 24, 17, 10, 17, 24, 17, 24, 17, 24, 17, 10, 17, 24, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 17, 24, 21, 28, 17, 24, 13, 6};
 
     private static final int[] disruptionWeekBasis = {192, 193, 210, 211, 228, 229, 247, 248, 265, 266, 283, 284, 301, 302};
-    private static final int[][] disruptionWeekStrands = {{3,4,5,6}, {1,2}, {5,6}, {1,2,3,4}, {6}, {1,2,3,4,5}, {2,3,4,5,6}, {1}, {4,5,6}, {1,2,3}, {6}, {1,2,3,4,5}, {6}, {1,2,3,4,5}};
+    private static final int[][] disruptionWeekStrands = {{3,4,5,6}, {1,2}, {5,6}, {1,2,3,4}, {6}, {1,2,3,4,5}, {2,3,4,5,6}, {1}, {4,5,6}, {1,2,3}, {6}, {1,2,3,4,5}, {}, {1,2,3,4,5,6}};
 
     private int nextWeek;
     private ArrayList<Integer> npcWeekOffsets = new ArrayList<>();
