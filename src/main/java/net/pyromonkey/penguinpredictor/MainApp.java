@@ -80,7 +80,8 @@ public class MainApp extends Application {
 
         // calculate current npc week offsets
         npcWeekOffsets.clear();
-        int[] offsetAdds = {32, 23, 14, 5, 28, 10};
+        // these indicate the current location in a 32 week cycle, they are all 9 spaces apart, the cycle is a circular buffer
+        int[] offsetAdds = {32, 23, 14, 5, 28, 19, 10};
         for (int add : offsetAdds) {
             int offset = (((nextWeek - 3) % 32) + add) % 32;
             if (offset == 0) {
@@ -169,7 +170,7 @@ public class MainApp extends Application {
             }
         }
 
-        for (int i = 0; i < 6; i ++) {
+        for (int i = 0; i < 7; i ++) {
             int strand = i + 1;
             int weekOffsetBase = (npcWeekOffsets.get(i) - 1) * 2;
             int disruptionOffset = 0;
@@ -184,6 +185,9 @@ public class MainApp extends Application {
             }
 
             if (i == 5) {
+                // this is special logic for the ghost peng, we only calculate 2 point pengs and stylize with G)
+                twoPointPredictions.add("G) " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
+            } else if (i == 6) {
                 // this is special logic for the freezer peng, we only calculate 2 point pengs and stylize with F)
                 twoPointPredictions.add("F) " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
             } else {
