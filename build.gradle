@@ -26,5 +26,5 @@ jfx {
     vendor = 'TeamPeng'
 
     // version for builds
-    nativeReleaseVersion = "1.7"
+    nativeReleaseVersion = "1.8"
 }
