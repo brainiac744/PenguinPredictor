@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<SplitPane dividerPositions="0.3" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pyromonkey.penguinpredictor.view.RootLayoutController">
+<SplitPane dividerPositions="0.3" prefHeight="430.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.pyromonkey.penguinpredictor.view.RootLayoutController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -18,24 +18,6 @@
                         </padding></Label>
                        <TextField fx:id="vWeek" prefWidth="80.0" />
                    </HBox>
-                  <Label text="One Point Penguins" />
-                  <ChoiceBox fx:id="onePointPenguins1" />
-                  <ChoiceBox fx:id="onePointPenguins2" />
-                  <ChoiceBox fx:id="onePointPenguins3" />
-                  <ChoiceBox fx:id="onePointPenguins4" />
-                  <ChoiceBox fx:id="onePointPenguins5" />
-                   <Label text="Ghost Penguin">
-                       <VBox.margin>
-                           <Insets top="10.0" />
-                       </VBox.margin>
-                   </Label>
-                   <ChoiceBox fx:id="ghostPenguin" />
-                   <Label text="Freezer Penguin">
-                       <VBox.margin>
-                           <Insets top="10.0" />
-                       </VBox.margin>
-                   </Label>
-                   <ChoiceBox fx:id="freezerPenguin" />
                   <Button mnemonicParsing="false" onAction="#doPredictions" text="Predict">
                      <VBox.margin>
                         <Insets top="10.0" />

@@ -2,13 +2,9 @@ package net.pyromonkey.penguinpredictor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Random;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
@@ -21,54 +17,20 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
 
-    private static final String[] onePointPenguinNames = {"Goblin Village bush", "Ice Mountain rock", "McGrubor's Wood bush", "Rellekka rock", "Entrana barrel", "Draynor crate", "Mage Arena bush", "Barbarian Outpost bush", "Observatory crate", "Witchaven rock", "East Karamja bush", "White Wolf rock", "Lumbridge toadstool", "Digsite rock", "Wizards' Tower bush", "Eagles' Peak bush", "Castle Wars bush", "Central Karamja bush", "Burthorpe rock", "Smoky Well cactus", "Zanaris toadstool", "Ardougne bush", "Port Khazard barrel", "Gnome Maze bush", "Brimhaven bush", "Mudskipper bush", "KQ Lair cactus", "Dorgesh-Kaan barrel", "Lighthouse rock", "Feldip rock", "Gnome Stronghold bush", "Musa Point crate", "Sawmill crate", "Al Kharid cactus"};
-    private static final String[] twoPointPenguinNames = {"Mort Myre rock", "Ape Atoll barrel", "Jatizso bush", "North of KBD rock", "Canifis crate", "Elf Camp toadstool", "Piscatoris crate", "SW of KBD rock", "Ape Atoll bush", "Neitiznot bush", "Lava Maze rock", "Port Phasmatys barrel", "Tyras Catapult toadstool", "Feldip bush", "Nardah cactus", "Miscellania bush", "Lunar Isle rock", "Mort Myre toadstool", "Jiggig rock", "Lletya toadstool", "Castle Wars rock", "Dragontooth crate", "Jatizso rock", "Old SC rock", "Mort Myre bush", "South Sophanem cactus", "Desert TARDIS cactus", "Elf Limestone rock", "Mos Le'Harmless barrel", "Neitiznot rock", "Scorpion Pit rock", "Canifis bush", "North Sophanem cactus", "Keldagrim rock"};
-
-    private static final int[] penguinOffsets = {17, 24, 21, 28, 17, 24, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 15, 8, 19, 12, 19, 26, 15, 22, 17, 24, 17, 10, 17, 24, 17, 24, 17, 24, 17, 10, 17, 24, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 19, 26, 19, 12, 15, 8, 15, 22, 17, 24, 21, 28, 17, 24, 13, 6};
-
-    private static final int[] disruptionWeekBasis = {192, 193, 210, 211, 228, 229, 247, 248, 265, 266, 283, 284, 301, 302};
-    private static final int[][] disruptionWeekStrands = {{3,4,5,6,7}, {1,2}, {5,6,7}, {1,2,3,4}, {7}, {1,2,3,4,5,6}, {2,3,4,5,6,7}, {1}, {4,5,6,7}, {1,2,3}, {6,7}, {1,2,3,4,5}, {}, {1,2,3,4,5,6,7}};
+    private static final String[] onePointPenguinNames = {"Smoky Well cactus", "Lumbridge toadstool", "Draynor crate", "Fort Forinthry crate", "Mudskipper bush", "Burthorpe rock", "White Wolf rock", "Entrana barrel", "Musa Point crate", "Brimhaven bush", "Central Karamja bush", "East Karamja bush", "Rellekka rock", "Gnome Stronghold bush", "Gnome Maze bush", "Castle Wars bush", "Witchaven rock", "McGrubor's Wood bush", "Feldip rock", "Port Khazard barrel", "Eagles' Peak bush", "Observatory crate", "Ice Mountain rock", "Lighthouse rock", "Ardougne bush", "Wizards' Tower bush", "Barbarian Outpost bush", "Goblin Village bush", "Dorgesh-Kaan barrel", "Zanaris toadstool", "Digsite rock", "Mage Arena bush", "Al Kharid cactus", "KQ Lair cactus"};
+    private static final String[] twoPointPenguinNames = {"Lletya toadstool", "Tyras Catapult toadstool", "Elf Camp toadstool", "North Sophanem cactus", "South Sophanem cactus", "Jiggig rock", "Port Phasmatys barrel", "Canifis crate", "Canifis bush", "Mort Myre bush", "Mort Myre toadstool", "Lava Maze rock", "North of KBD rock", "Scorpion Pit rock", "Old SC rock", "Lunar Isle rock", "Neitiznot bush", "Jatizso bush", "Neitiznot rock", "Jatizso rock", "Miscellania bush", "Ape Atoll bush", "Ape Atoll barrel", "Mos Le'Harmless barrel", "Dragontooth crate", "Nardah cactus", "SW of KBD rock", "Mort Myre rock", "Elf Limestone rock", "Castle Wars rock", "Feldip bush", "Piscatoris crate", "Keldagrim rock", "Desert TARDIS cactus"};
+    private static final String[] bearNames = {"Varrock Well", "Rellekka Well", "Falador Well", "Ardougne Well", "Musa Point Well", "Rimmington Well", "Varrock Well", "Rellekka Well", "Falador Well", "Ardougne Well", "Musa Point Well", "Rimmington Well", "Varrock Well", "Rellekka Well", "Falador Well", "Ardougne Well", "Musa Point Well", "Rimmington Well", "Varrock Well", "Rellekka Well", "Falador Well", "Ardougne Well", "Musa Point Well", "Rimmington Well", "Varrock Well", "Rellekka Well", "Falador Well", "Ardougne Well", "Rellekka Well", "Rellekka Well", "Falador Well", "Ardougne Well", "Musa Point Well", "Rimmington Well"};
 
     private int nextWeek;
-    private ArrayList<Integer> npcWeekOffsets = new ArrayList<>();
+    private int runeDate;
 
-    /**
-     * The data as an observable list of Persons.
-     */
-    private ObservableList<Penguin> onePointPenguins = FXCollections.observableArrayList();
-    private ObservableList<Penguin> twoPointPenguins = FXCollections.observableArrayList();
 
     /**
      * Constructor
      */
     public MainApp() {
         // figure out what next v-week is
-        nextWeek = (int) ((System.currentTimeMillis()/1000)-1219190400)/(7*86400) + 1;
-
-        // calculate current npc week offsets
-        int[] offsetAdds = {32, 23, 14, 5, 28, 10};
-        for (int add : offsetAdds) {
-            // this is math that turns a v-week into the correct week offset
-            // for penguin strands 1-6 (6 is for the freezer penguin only)
-            int offset = (((nextWeek - 3) % 32) + add) % 32;
-            if (offset == 0) {
-                offset = 32;
-            }
-            npcWeekOffsets.add(offset);
-        }
-
-        // put the penguins into their observable lists
-        for (int i = 0; i < onePointPenguinNames.length; i++) {
-            onePointPenguins.add(new Penguin(onePointPenguinNames[i], i));
-        }
-
-        for (int i = 0; i < twoPointPenguinNames.length; i++) {
-            twoPointPenguins.add(new Penguin(twoPointPenguinNames[i], i));
-        }
-
-        // put the penguins in alphabetical order for improved human-friendliness
-        Collections.sort(onePointPenguins);
-        Collections.sort(twoPointPenguins);
+        setNextWeek((int) ((System.currentTimeMillis()/1000)-1219190400)/(7*86400) + 1);
     }
 
     public int getNextWeek() {
@@ -77,26 +39,7 @@ public class MainApp extends Application {
 
     public void setNextWeek(int nextWeek) {
         this.nextWeek = nextWeek;
-
-        // calculate current npc week offsets
-        npcWeekOffsets.clear();
-        // these indicate the current location in a 32 week cycle, they are all 9 spaces apart, the cycle is a circular buffer
-        int[] offsetAdds = {32, 23, 14, 5, 28, 19, 10};
-        for (int add : offsetAdds) {
-            int offset = (((nextWeek - 3) % 32) + add) % 32;
-            if (offset == 0) {
-                offset = 32;
-            }
-            npcWeekOffsets.add(offset);
-        }
-    }
-
-    public ObservableList<Penguin> getOnePointPenguins() {
-        return onePointPenguins;
-    }
-
-    public ObservableList<Penguin> getTwoPointPenguins() {
-        return twoPointPenguins;
+        this.runeDate = nextWeek * 7 + 2366;
     }
 
     @Override
@@ -144,108 +87,35 @@ public class MainApp extends Application {
         return primaryStage;
     }
 
-    public String predictNextWeek(int[] onePointPenguins) {
-        // determine if it is a disruption week
-        boolean disruption = false;
-        int[] disruptedStrands = {};
-        for (int i = 0; i < disruptionWeekBasis.length; i++) {
-            if ((nextWeek - disruptionWeekBasis[i]) % 128 == 0) {
-                disruption = true;
-                disruptedStrands = disruptionWeekStrands[i];
-            }
-        }
+    public String predictNextWeek() {
 
         ArrayList<String> onePointPredictions = new ArrayList<>();
         ArrayList<String> twoPointPredictions = new ArrayList<>();
 
-        // for disruptions
-        int set = 1;
-        if (disruption) {
-            if ((nextWeek - 247) % 73 == 0 || (nextWeek - 248) % 73 == 0) {
-                // use set 3
-                set = 3;
-            } else {
-                // use set 2
-                set = 2;
-            }
+        // calculate 1 points with random seed of the week
+        for (int i=0; i<5; i++) {
+            long seed = (1L << 32) + runeDate + i;
+           onePointPredictions.add((i+1) + ") " + onePointPenguinNames[(new Random(seed)).nextInt(34)]);
         }
 
-        for (int i = 0; i < 7; i ++) {
-            int strand = i + 1;
-            int weekOffsetBase = (npcWeekOffsets.get(i) - 1) * 2;
-            int disruptionOffset = 0;
-            if (disruption && inArray(strand, disruptedStrands)) {
-                if (set == 3) {
-                    // use set 3
-                    disruptionOffset = 16;
-                } else {
-                    // use set 2
-                    disruptionOffset = 31;
-                }
-            }
-
-            if (i == 5) {
-                // this is special logic for the ghost peng, we only calculate 2 point pengs and stylize with G)
-                twoPointPredictions.add("G) " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
-            } else if (i == 6) {
-                // this is special logic for the freezer peng, we only calculate 2 point pengs and stylize with F)
-                twoPointPredictions.add("F) " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
-            } else {
-                onePointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, onePointPenguinNames, disruptionOffset));
-                twoPointPredictions.add(strand + ") " + predictPenguin(onePointPenguins[i], penguinOffsets, weekOffsetBase, twoPointPenguinNames, disruptionOffset));
-            }
+        // calculate 2 points with random seed of the week
+        for (int i=0; i<5; i++) {
+            long seed = (1L << 32) + runeDate + i;
+            twoPointPredictions.add((i+6) + ") " + twoPointPenguinNames[(new Random(seed)).nextInt(34)]);
         }
 
-        String message = "For week v" + nextWeek + " I predict:\n\n1-Point Penguins\n" + onePointPredictions.stream().collect(Collectors.joining("\n"))
-                + "\n\n2-Point-Penguins\n" + twoPointPredictions.stream().collect(Collectors.joining("\n"));
+        // calculate ghost first spawn
+        twoPointPredictions.add("G) " + twoPointPenguinNames[(new Random((1L << 32) + runeDate + 5)).nextInt(34)]);
 
-        if (disruption) {
-            String disruptionMessage = "Warning! Week v" + nextWeek + " is a disruption week! The following strands will be disrupted using set " + set + ": ";
-            if (disruptedStrands.length == 0) {
-                disruptionMessage += "none  ";
-            }
-            for (int strand : disruptedStrands) {
-                disruptionMessage += strand + ", ";
-            }
-            message = disruptionMessage.substring(0, disruptionMessage.length()-2) + ".\n\n" + message;
-        }
-        return message;
-    }
+        // calculate freezer
+        twoPointPredictions.add("F) " + twoPointPenguinNames[(new Random((1L << 32) + runeDate + 6)).nextInt(34)]);
 
-    private boolean inArray(int value, int[] array) {
-        for (int arrayValue : array) {
-            if (value == arrayValue) {
-                return true;
-            }
-        }
-        return false;
-    }
+        // calculate bear
+        String bear = bearNames[(new Random((1L << 32) + runeDate + 4)).nextInt(34)];
 
-    private String predictPenguin(int currentWeek, int[] weekOffsets, int weekOffsetBase, String[] penguins, int disruptionOffset) {
-        List<Integer> pengArrayOffsets = new ArrayList<>();
-        if (weekOffsetBase + 1 < weekOffsets.length) {
-            // two possibilities
-            pengArrayOffsets.add((weekOffsets[weekOffsetBase] + currentWeek) % penguins.length);
-            pengArrayOffsets.add((weekOffsets[weekOffsetBase + 1] + currentWeek) % penguins.length);
-        } else {
-            // only one possible option
-            pengArrayOffsets.add((weekOffsets[weekOffsetBase] + currentWeek) % penguins.length);
-        }
-
-        if (disruptionOffset != 0) {
-            // disrupt the original penguins
-            int originalLength = pengArrayOffsets.size();
-            for (int i = 0; i < originalLength; i++) {
-                pengArrayOffsets.set(i, (pengArrayOffsets.get(i) + disruptionOffset) % penguins.length);
-            }
-        }
-
-        String message = "";
-        for (int pengArrayOffset : pengArrayOffsets) {
-            message += penguins[pengArrayOffset] + " or ";
-        }
-
-        return message.substring(0, message.length() - 4);
+        return "For week v" + nextWeek + " I predict:\n\n1-Point Penguins\n" + String.join("\n", onePointPredictions)
+                + "\n\n2-Point-Penguins\n" + String.join("\n", twoPointPredictions)
+                + "\n\nBear: " + bear;
     }
 
     public static void main(String[] args) {

@@ -2,25 +2,13 @@ package net.pyromonkey.penguinpredictor.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import net.pyromonkey.penguinpredictor.MainApp;
-import net.pyromonkey.penguinpredictor.Penguin;
-
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class RootLayoutController {
 
     @FXML private TextField vWeek;
-    @FXML private ChoiceBox<Penguin> onePointPenguins1;
-    @FXML private ChoiceBox<Penguin> onePointPenguins2;
-    @FXML private ChoiceBox<Penguin> onePointPenguins3;
-    @FXML private ChoiceBox<Penguin> onePointPenguins4;
-    @FXML private ChoiceBox<Penguin> onePointPenguins5;
-    @FXML private ChoiceBox<Penguin> ghostPenguin;
-    @FXML private ChoiceBox<Penguin> freezerPenguin;
 
     @FXML private TextArea rightPaneTextArea;
 
@@ -37,14 +25,6 @@ public class RootLayoutController {
         this.mainApp = mainApp;
 
         vWeek.setText(Integer.toString(mainApp.getNextWeek()));
-
-        onePointPenguins1.setItems(mainApp.getOnePointPenguins());
-        onePointPenguins2.setItems(mainApp.getOnePointPenguins());
-        onePointPenguins3.setItems(mainApp.getOnePointPenguins());
-        onePointPenguins4.setItems(mainApp.getOnePointPenguins());
-        onePointPenguins5.setItems(mainApp.getOnePointPenguins());
-        ghostPenguin.setItems(mainApp.getTwoPointPenguins());
-        freezerPenguin.setItems(mainApp.getTwoPointPenguins());
     }
 
     public void doPredictions() {
@@ -77,45 +57,7 @@ public class RootLayoutController {
 
         mainApp.setNextWeek(vWeekInt);
 
-        // gather selected penguins
-        int[] onePointPenguins = new int[7];
-
-        ArrayList<String> missingPenguins = new ArrayList<>();
-
-        onePointPenguins[0] = getOrdinalOrNegativeOne(onePointPenguins1.getValue());
-        onePointPenguins[1] = getOrdinalOrNegativeOne(onePointPenguins2.getValue());
-        onePointPenguins[2] = getOrdinalOrNegativeOne(onePointPenguins3.getValue());
-        onePointPenguins[3] = getOrdinalOrNegativeOne(onePointPenguins4.getValue());
-        onePointPenguins[4] = getOrdinalOrNegativeOne(onePointPenguins5.getValue());
-        onePointPenguins[5] = getOrdinalOrNegativeOne(ghostPenguin.getValue());
-        onePointPenguins[6] = getOrdinalOrNegativeOne(freezerPenguin.getValue());
-
-        for (int i=0; i < onePointPenguins.length; i++) {
-            if (onePointPenguins[i] < 0) {
-                missingPenguins.add("One point penguin for position " + (i+1));
-            }
-        }
-
-        if (!missingPenguins.isEmpty()) {
-            // Nothing selected.
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(mainApp.getPrimaryStage());
-            alert.setTitle("Missing Penguins");
-            alert.setHeaderText("Some Penguins Missing");
-            alert.setContentText("The following penguins were not selected:\n" + missingPenguins.stream().collect(Collectors.joining("\n")));
-
-            alert.showAndWait();
-        } else {
-            // do the predictions
-            rightPaneTextArea.setText(mainApp.predictNextWeek(onePointPenguins));
-        }
-    }
-
-    private int getOrdinalOrNegativeOne(Penguin penguin) {
-        if (penguin == null) {
-            return -1;
-        } else {
-            return penguin.getOrdinal();
-        }
+        // do the predictions
+        rightPaneTextArea.setText(mainApp.predictNextWeek());
     }
 }
